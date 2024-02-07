@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+{% with authenticated=user.is_authenticated %}
+    {{block.super}}
+{% endwith %}
+
+<div class="container">
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-6">
+            {% if user.is_authenticated %}
+                <p class="text-center mb-4"> Welcome! You are logged in as {{ user.username }}. </p>
+                <div class="d-grid gap-2 mb-3">
+                    <form method="POST", action="{% url 'dashboard:logout' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary w-100">Logout</button>
+                    </form>
+                </div>
+            {% else %}
+                <p class="text-center mb-4">Welcome! Please login or register:</p>
+                <div class="d-grid gap-2 mb-3">
+                    <a href="{% url 'dashboard:login' %}" class="btn btn-primary">Login</a>
+                </div>
+                <div class="d-grid gap-2 mb-3">
+                    <a href="{% url 'dashboard:signup' %}" class="btn btn-secondary">Register</a>
+                </div>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

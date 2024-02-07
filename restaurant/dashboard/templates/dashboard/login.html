@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+{% with authenticated=user.is_authenticated %}
+    {{block.super}}
+{% endwith %}
+
+<div class="container">
+    <h1 class="text-center mt-4">Login here</h1>
+    <form method="POST" class="mt-4" action=>
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="id_username" class="form-label">Username</label>
+            {{ form.username }}
+            {% if form.username.errors %}
+                <span class="text-danger">{{ form.username.errors }}</span>
+            {% endif %}
+        </div>
+        <div class="mb-3">
+            <label for="id_password" class="form-label">Password</label>
+            {{ form.password }}
+            {% if form.password.errors %}
+                <span class="text-danger">{{ form.password.errors }}</span>
+            {% endif %}
+        </div>
+        <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-primary" value="Login">Login</button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}
