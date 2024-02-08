@@ -6,7 +6,7 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Update Dish</h5>
+                    <h5 class="card-title">Update Driver</h5>
                     <form method="post">
                         {% csrf_token %}
                         <div class="mb-3">
@@ -14,22 +14,22 @@
                             {{ form.name }}
                         </div>
                         <div class="mb-3">
-                            {{ form.description.label }}
-                            {{ form.description }}
+                            {{ form.phone.label }}
+                            {{ form.phone }}
                         </div>
                         <div class="mb-3">
-                            {{ form.price.label }}
-                            {{ form.price }}
+                            {{ form.nationality.label }}
+                            {{ form.nationality }}
                         </div>
                         <div class="mb-3">
-                            <label for="dish_image" class="form-label">Current Image</label>
+                            <label for="driver_image" class="form-label">Current Image</label>
                             <div style="overflow: hidden;">
-                                <img src="{{ dish.image.url }}" class="card-img-top img-fluid fit-image" alt="{{ dish.name }}">
+                                <img src="{{ driver.image.url }}" class="card-img-top img-fluid fit-image" alt="{{ driver.name }}">
                             </div>
-                            <input type="file" class="form-control" id="dish_image" name="image">
+                            <input type="file" class="form-control" id="driver_image" name="image">
                         </div>
                         <button type="submit" class="btn btn-primary">Update</button>
-                        <a href="{% url "dashboard:delete_dish" dish.id %}" class="btn btn-danger">Delete</a>
+                        <a href="{% url "dashboard:delete_driver" driver.id %}" class="btn btn-danger">Delete</a>
                     </form>
                 </div>
             </div>

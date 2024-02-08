@@ -1,6 +1,7 @@
 from django.contrib.auth import authenticate
 from django.contrib.auth import login
 from django.contrib.auth import logout
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.http import HttpRequest
 from django.http import HttpResponseBadRequest
@@ -9,10 +10,12 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import CreateView
+from django.views.generic import DeleteView
 from django.views.generic import FormView
 from django.views.generic import ListView
 from django.views.generic import RedirectView
 
+from . import filters
 from . import forms
 from . import models
 
@@ -53,7 +56,10 @@ class LogoutView(RedirectView):
 class DishListView(ListView):
     model = models.Dish
     template_name = "dashboard/dish_list.html"
-    context_object_name = "dishes"
+
+    def get(self, request: HttpRequest):
+        filter = filters.DishFilter(request.GET, queryset=models.Dish.objects.all())
+        return render(request, self.template_name, {"filter": filter})
 
 
 class DishUpdateView(PermissionRequiredMixin, View):
@@ -75,6 +81,94 @@ class DishUpdateView(PermissionRequiredMixin, View):
         return render(request, self.template_name, {"form": form, "dish": dish})
 
 
+class DishDeleteView(PermissionRequiredMixin, DeleteView):
+    model = models.Dish
+    template_name = "dashboard/dish_delete.html"
+    permission_required = "dashboard.delete_dish"
+    success_url = reverse_lazy("dashboard:menu")
+
+    def get(self, request: HttpRequest, pk: int):
+        dish = models.Dish.objects.get(pk=pk)
+        return render(request, self.template_name, {"dish": dish})
+
+
+class DishReviewCreateView(LoginRequiredMixin, CreateView):
+    model = models.DishReview
+    fields = "__all__"
+    template_name = "dashboard/dish_review_create.html"
+    success_url = reverse_lazy("dashboard:menu")
+
+    def get(self, request: HttpRequest, pk: int):
+        dish = models.Dish.objects.get(pk=pk)
+        form = forms.DishReviewForm(initial={"dish": dish})
+        return render(request, self.template_name, {"form": form, "dish": dish})
+
+    def post(self, request: HttpRequest, pk: int):
+        dish = models.Dish.objects.get(pk=pk)
+        form = forms.DishReviewForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect(reverse_lazy("dashboard:menu"))
+        return render(request, self.template_name, {"form": form, "dish": dish})
+
+
+class DishReviewListView(ListView):
+    model = models.DishReview
+    template_name = "dashboard/dish_reviews_list.html"
+    context_object_name = "reviews"
+
+
+class DishReviewDeleteView(PermissionRequiredMixin, DeleteView):
+    model = models.DishReview
+    template_name = "dashboard/dish_review_delete.html"
+    permission_required = "dashboard.delete_dishreview"
+    success_url = reverse_lazy("dashboard:reviews")
+
+    def get(self, request: HttpRequest, pk: int):
+        review = models.DishReview.objects.get(pk=pk)
+        return render(request, self.template_name, {"review": review})
+
+
+class DriverListView(ListView):
+    model = models.Driver
+    template_name = "dashboard/driver_list.html"
+    context_object_name = "drivers"
+
+    def get(self, request: HttpRequest):
+        filter = filters.DriverFilter(request.GET, queryset=models.Driver.objects.all())
+        return render(request, self.template_name, {"filter": filter})
+
+
+class DriverUpdateView(PermissionRequiredMixin, View):
+    model = models.Driver
+    template_name = "dashboard/driver_update.html"
+    permission_required = "dashboard.change_driver"
+
+    def get(self, request: HttpRequest, pk: int):
+        driver = models.Driver.objects.get(pk=pk)
+        form = forms.DriverForm(instance=driver)
+        return render(request, self.template_name, {"form": form, "driver": driver})
+
+    def post(self, request: HttpRequest, pk: int):
+        driver = models.Driver.objects.get(pk=pk)
+        form = forms.DriverForm(request.POST, request.FILES, instance=driver)
+        if form.is_valid():
+            form.save()
+            return redirect(reverse_lazy("dashboard:driver_list"))
+        return render(request, self.template_name, {"form": form, "driver": driver})
+
+
+class DriverDeleteView(PermissionRequiredMixin, DeleteView):
+    model = models.Driver
+    template_name = "dashboard/driver_delete.html"
+    permission_required = "dashboard.delete_driver"
+    success_url = reverse_lazy("dashboard:driver_list")
+
+    def get(self, request: HttpRequest, pk: int):
+        driver = models.Driver.objects.get(pk=pk)
+        return render(request, self.template_name, {"driver": driver})
+
+
 class AdministratorView(PermissionRequiredMixin, View):
     template_name = "dashboard/administrator.html"
     permission_required = "dashboard.add_dish"
@@ -87,7 +181,7 @@ class AdministratorView(PermissionRequiredMixin, View):
 
     def post(self, request: HttpRequest):
         if "add_driver" in request.POST:
-            form = forms.DriverForm(request.POST)
+            form = forms.DriverForm(request.POST, request.FILES)
             if form.is_valid():
                 form.save()
             return redirect(reverse_lazy("dashboard:driver_list"))

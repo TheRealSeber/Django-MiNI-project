@@ -24,10 +24,10 @@
                         <a class="nav-link" aria-current="page" href="{% url "dashboard:menu" %}">Menu</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Order</a>
+                        <a class="nav-link" href="{% url "dashboard:reviews" %}">Reviews</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Our Drivers</a>
+                        <a class="nav-link" href="{% url "dashboard:driver_list" %}">Our Drivers</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {% if not perms.dashboard.add_dish %} disabled {% endif %}"

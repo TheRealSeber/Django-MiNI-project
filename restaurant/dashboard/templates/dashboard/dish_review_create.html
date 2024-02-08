@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container">
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Add Review for the dish</h5>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            {{ form.dish.label }}
+                            {{ form.dish }}
+                            {{ form.dish.errors }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form.name.label }}
+                            {{ form.name }}
+                            {{ form.name.errors }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form.stars.label }}
+                            {{ form.stars }}
+                            {{ form.stars.errors }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form.review.label }}
+                            {{ form.review }}
+                            {{ form.review.errors }}
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit Review</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

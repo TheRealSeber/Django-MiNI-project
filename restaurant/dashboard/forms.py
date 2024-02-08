@@ -90,6 +90,7 @@ class DishForm(forms.ModelForm):
                 attrs={
                     "class": "form-control",
                     "placeholder": "Description",
+                    "rows": 4,
                 }
             ),
             "price": forms.NumberInput(
@@ -111,14 +112,53 @@ class DishForm(forms.ModelForm):
         }
 
 
+class DishReviewForm(forms.ModelForm):
+    class Meta:
+        model = models.DishReview
+        fields = "__all__"
+        labels = {
+            "dish": "Dish",
+            "name": "Your Name",
+            "stars": "Stars",
+            "review": "Review",
+        }
+
+        widgets = {
+            "dish": forms.Select(
+                attrs={
+                    "class": "form-control",
+                }
+            ),
+            "name": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Name",
+                }
+            ),
+            "stars": forms.NumberInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Stars",
+                }
+            ),
+            "review": forms.Textarea(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Review",
+                }
+            ),
+        }
+
+
 class DriverForm(forms.ModelForm):
     class Meta:
         model = models.Driver
         fields = "__all__"
         labels = {
             "name": "Driver Name",
-            "email": "Email",
             "phone": "Phone",
+            "image": "Image",
+            "nationality": "Nationality",
         }
 
         widgets = {
@@ -128,16 +168,21 @@ class DriverForm(forms.ModelForm):
                     "placeholder": "Driver Name",
                 }
             ),
-            "email": forms.EmailInput(
-                attrs={
-                    "class": "form-control",
-                    "placeholder": "Email",
-                }
-            ),
             "phone": forms.TextInput(
                 attrs={
                     "class": "form-control",
                     "placeholder": "Phone",
+                }
+            ),
+            "image": forms.ClearableFileInput(
+                attrs={
+                    "class": "form-control",
+                }
+            ),
+            "nationality": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Nationality",
                 }
             ),
         }
