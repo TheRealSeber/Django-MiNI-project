@@ -33,11 +33,11 @@
                             <p class="card-text small">Phone number: {{ driver.phone }}</p>
                             <p class="card-text small">Nationality: {{ driver.nationality }}</p>
                         </div>
+                        {% if perms.dashboard.add_driver %}
                         <div class="card-footer d-flex justify-content-between align-items-center">
-                            {% if perms.dashboard.add_driver %}
-                                <a href="{% url 'dashboard:driver_update' driver.id %}" class="btn btn-primary">Modify</a>
-                            {% endif %}
+                            <a href="{% url 'dashboard:driver_update' driver.id %}" class="btn btn-primary">Modify</a>
                         </div>
+                        {% endif %}
                     </div>
                 </div>
                 {% endfor %}
