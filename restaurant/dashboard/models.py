@@ -2,7 +2,6 @@ from django.db import models
 from django.urls import reverse
 
 
-# Create your models here.
 class Dish(models.Model):
     name = models.CharField(max_length=50)
     description = models.TextField()
@@ -67,9 +66,7 @@ class Driver(models.Model):
     name = models.CharField(max_length=50)
     email = models.EmailField()
     phone = models.CharField(max_length=15)
-    vehicle = models.CharField(max_length=50)
     available = models.BooleanField(default=True)
-    location = models.CharField(max_length=50)
 
     def __str__(self):
         return self.name

@@ -3,6 +3,8 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
+from . import models
+
 
 class RegistrationForm(UserCreationForm):
     password1 = forms.CharField(
@@ -63,3 +65,79 @@ class LoginForm(AuthenticationForm):
             }
         ),
     )
+
+
+class DishForm(forms.ModelForm):
+    class Meta:
+        model = models.Dish
+        fields = "__all__"
+        labels = {
+            "name": "Dish Name",
+            "description": "Description",
+            "price": "Price",
+            "available": "Available",
+            "image": "Image",
+        }
+
+        widgets = {
+            "name": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Dish Name",
+                }
+            ),
+            "description": forms.Textarea(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Description",
+                }
+            ),
+            "price": forms.NumberInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Price",
+                }
+            ),
+            "available": forms.CheckboxInput(
+                attrs={
+                    "class": "form-check-input",
+                }
+            ),
+            "image": forms.ClearableFileInput(
+                attrs={
+                    "class": "form-control",
+                }
+            ),
+        }
+
+
+class DriverForm(forms.ModelForm):
+    class Meta:
+        model = models.Driver
+        fields = "__all__"
+        labels = {
+            "name": "Driver Name",
+            "email": "Email",
+            "phone": "Phone",
+        }
+
+        widgets = {
+            "name": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Driver Name",
+                }
+            ),
+            "email": forms.EmailInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Email",
+                }
+            ),
+            "phone": forms.TextInput(
+                attrs={
+                    "class": "form-control",
+                    "placeholder": "Phone",
+                }
+            ),
+        }

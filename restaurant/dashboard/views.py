@@ -1,11 +1,13 @@
 from django.contrib.auth import authenticate
 from django.contrib.auth import login
 from django.contrib.auth import logout
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.http import HttpRequest
+from django.http import HttpResponseBadRequest
 from django.shortcuts import redirect
 from django.shortcuts import render
 from django.urls import reverse_lazy
+from django.views import View
 from django.views.generic import CreateView
 from django.views.generic import FormView
 from django.views.generic import ListView
@@ -15,7 +17,6 @@ from . import forms
 from . import models
 
 
-# Create your views here.
 def dashboard(request: HttpRequest):
     return render(request, "dashboard/dashboard.html")
 
@@ -54,9 +55,45 @@ class DishListView(ListView):
     template_name = "dashboard/dish_list.html"
     context_object_name = "dishes"
 
-    current_page = "menu"
+
+class DishUpdateView(PermissionRequiredMixin, View):
+    model = models.Dish
+    template_name = "dashboard/dish_update.html"
+    permission_required = "dashboard.change_dish"
+
+    def get(self, request: HttpRequest, pk: int):
+        dish = models.Dish.objects.get(pk=pk)
+        form = forms.DishForm(instance=dish)
+        return render(request, self.template_name, {"form": form, "dish": dish})
+
+    def post(self, request: HttpRequest, pk: int):
+        dish = models.Dish.objects.get(pk=pk)
+        form = forms.DishForm(request.POST, request.FILES, instance=dish)
+        if form.is_valid():
+            form.save()
+            return redirect(reverse_lazy("dashboard:menu"))
+        return render(request, self.template_name, {"form": form, "dish": dish})
 
 
-@login_required
-def restricted_view(request):
-    return render(request, "dashboard/restricted_view.html")
+class AdministratorView(PermissionRequiredMixin, View):
+    template_name = "dashboard/administrator.html"
+    permission_required = "dashboard.add_dish"
+
+    def get(self, request: HttpRequest):
+        context = {}
+        context["driver_form"] = forms.DriverForm()
+        context["dish_form"] = forms.DishForm()
+        return render(request, self.template_name, context)
+
+    def post(self, request: HttpRequest):
+        if "add_driver" in request.POST:
+            form = forms.DriverForm(request.POST)
+            if form.is_valid():
+                form.save()
+            return redirect(reverse_lazy("dashboard:driver_list"))
+        elif "add_dish" in request.POST:
+            form = forms.DishForm(request.POST, request.FILES)
+            if form.is_valid():
+                form.save()
+            return redirect(reverse_lazy("dashboard:menu"))
+        return HttpResponseBadRequest("Invalid form submission")

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container">
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Update Dish</h5>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="dish_name" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="dish_name" name="name" value="{{ dish.name }}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="dish_description" class="form-label">Description</label>
+                            <textarea class="form-control" id="dish_description" name="description">{{ dish.description }}</textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="dish_price" class="form-label">Price</label>
+                            <input type="text" class="form-control" id="dish_price" name="price" value="{{ dish.price }}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="dish_image" class="form-label">Current Image</label>
+                            <div style="overflow: hidden;">
+                                <img src="{{ dish.image.url }}" class="card-img-top img-fluid dish-image" alt="{{ dish.name }}">
+                            </div>
+                            <input type="file" class="form-control" id="dish_image" name="image">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Update</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

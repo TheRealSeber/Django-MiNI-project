@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2 class="text-center m-4">Admin Panel</h2>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <h3 class="text-center mb-3">Add New Driver</h3>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ driver_form.as_p }}
+                <input type="submit" name="add_driver" value="Add Driver" class="btn btn-primary">
+            </form>
+        </div>
+
+        <div class="col-md-6">
+            <h3 class="text-center mb-3">Add New Dish</h3>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ dish_form.as_p }}
+                <input type="submit" name="add_dish" value="Add Dish" class="btn btn-primary">
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

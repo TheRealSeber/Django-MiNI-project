@@ -1,8 +1,5 @@
 {% extends "base.html" %}
 {% block content %}
-{% with authenticated=user.is_authenticated %}
-    {{block.super}}
-{% endwith %}
 
 <div class="container">
     <h1 class="text-center mt-4">Login here</h1>
