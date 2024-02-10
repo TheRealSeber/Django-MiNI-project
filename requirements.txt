@@ -1,0 +1,4 @@
+six==1.16.0
+django==5.0.1
+django-filter==23.5
+beautifulsoup4==4.11.2
