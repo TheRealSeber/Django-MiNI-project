@@ -5,7 +5,7 @@ from . import views
 app_name = "dashboard"
 
 urlpatterns = [
-    path("", views.dashboard, name="index"),
+    path("", views.DashboardView.as_view(), name="index"),
     path("signup/", views.SignUpView.as_view(), name="signup"),
     path("login/", views.LoginView.as_view(), name="login"),
     path("logout/", views.LogoutView.as_view(), name="logout"),
@@ -42,5 +42,10 @@ urlpatterns = [
         "administrator/delete_driver/<int:pk>/",
         views.DriverDeleteView.as_view(),
         name="delete_driver",
+    ),
+    path(
+        "verify-email-confirm/<uidb64>/<token>/",
+        views.VerifyEmailConfirmView.as_view(),
+        name="verify-email-confirm",
     ),
 ]

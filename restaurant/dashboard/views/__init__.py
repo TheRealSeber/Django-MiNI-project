@@ -1,8 +1,9 @@
 from .administrator import AdministratorView  # noqa: F401
-from .administrator import dashboard  # noqa: F401
+from .administrator import DashboardView  # noqa: F401
 from .administrator import LoginView  # noqa: F401
 from .administrator import LogoutView  # noqa: F401
 from .administrator import SignUpView  # noqa: F401
+from .administrator import VerifyEmailConfirmView  # noqa: F401
 from .dish import DishDeleteView  # noqa: F401
 from .dish import DishListView  # noqa: F401
 from .dish import DishUpdateView  # noqa: F401

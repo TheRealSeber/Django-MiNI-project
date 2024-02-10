@@ -12,22 +12,30 @@
                         <div class="mb-3">
                             {{ form.dish.label }}
                             {{ form.dish }}
-                            {{ form.dish.errors }}
+                            {% if form.dish.errors %}
+                                <span class="text-danger">{{ form.dish.errors }}</span>
+                            {% endif %}
                         </div>
                         <div class="mb-3">
                             {{ form.name.label }}
                             {{ form.name }}
-                            {{ form.name.errors }}
+                            {% if form.name.errors %}
+                                <span class="text-danger">{{ form.name.errors }}</span>
+                            {% endif %}
                         </div>
                         <div class="mb-3">
                             {{ form.stars.label }}
                             {{ form.stars }}
-                            {{ form.stars.errors }}
+                            {% if form.stars.errors %}
+                                <span class="text-danger">{{ form.stars.errors }}</span>
+                            {% endif %}
                         </div>
                         <div class="mb-3">
                             {{ form.review.label }}
                             {{ form.review }}
-                            {{ form.review.errors }}
+                            {% if form.review.errors %}
+                                <span class="text-danger">{{ form.review.errors }}</span>
+                            {% endif %}
                         </div>
                         <button type="submit" class="btn btn-primary">Submit Review</button>
                     </form>

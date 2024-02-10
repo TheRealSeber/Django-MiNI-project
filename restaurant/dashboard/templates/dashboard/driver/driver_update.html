@@ -12,14 +12,23 @@
                         <div class="mb-3">
                             {{ form.name.label }}
                             {{ form.name }}
+                            {% if form.name.errors %}
+                                <span class="text-danger">{{ form.name.errors }}</span>
+                            {% endif %}
                         </div>
                         <div class="mb-3">
                             {{ form.phone.label }}
                             {{ form.phone }}
+                            {% if form.phone.errors %}
+                                <span class="text-danger">{{ form.phone.errors }}</span>
+                            {% endif %}
                         </div>
                         <div class="mb-3">
                             {{ form.nationality.label }}
                             {{ form.nationality }}
+                            {% if form.nationality.errors %}
+                                <span class="text-danger">{{ form.nationality.errors }}</span>
+                            {% endif %}
                         </div>
                         <div class="mb-3">
                             <label for="driver_image" class="form-label">Current Image</label>

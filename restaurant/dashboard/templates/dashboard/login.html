@@ -6,14 +6,14 @@
     <form method="POST" class="mt-4">
         {% csrf_token %}
         <div class="mb-3">
-            <label for="id_username" class="form-label">Username</label>
+            {{ form.username.label }}
             {{ form.username }}
             {% if form.username.errors %}
                 <span class="text-danger">{{ form.username.errors }}</span>
             {% endif %}
         </div>
         <div class="mb-3">
-            <label for="id_password" class="form-label">Password</label>
+            {{ form.password.label }}
             {{ form.password }}
             {% if form.password.errors %}
                 <span class="text-danger">{{ form.password.errors }}</span>

@@ -18,7 +18,7 @@ class DishFilter(django_filters.FilterSet):
                 "filter_class": django_filters.BooleanFilter,
                 "extra": lambda f: {
                     "widget": forms.Select(
-                        attrs={"class": "form-control"},
+                        attrs={"class": "form-control mt-2"},
                         choices=[("", "---------"), (True, "Yes"), (False, "No")],
                     )
                 },
@@ -27,7 +27,7 @@ class DishFilter(django_filters.FilterSet):
                 "filter_class": django_filters.NumberFilter,
                 "extra": lambda f: {
                     "widget": forms.NumberInput(
-                        attrs={"class": "form-control", "placeholder": "Price"}
+                        attrs={"class": "form-control mt-2", "placeholder": "Price"}
                     ),
                 },
             },

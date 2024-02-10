@@ -6,6 +6,21 @@
         <div class="col-md-6">
             {% if user.is_authenticated %}
                 <p class="text-center mb-4"> Welcome! You are logged in as {{ user.username }}. </p>
+                {% if not user.email_is_verified %}
+                    <p class="text-center mb-4">Your email is not verified. Please verify your email.</p>
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="d-grid gap-2 mb-3">
+                            <input type="submit" name="verify_email" value="Verify Email" class="btn btn-primary">
+                        </div>
+                    </form>
+                {% endif %}
+                {% if user.email_is_verified %}
+                    <p class="text-center mb-4">Your email is verified.</p>
+                {% endif %}
+                {% if email_sent %}
+                    <p class="text-center mb-4">Email sent to {{ user.email }}. Please check your email and verify your email.</p>
+                {% endif %}
                 <div class="d-grid gap-2 mb-3">
                     <form method="POST", action="{% url 'dashboard:logout' %}">
                         {% csrf_token %}

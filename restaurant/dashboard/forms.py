@@ -1,9 +1,11 @@
 from django import forms
+from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
 
 from . import models
+
+User = get_user_model()
 
 
 class RegistrationForm(UserCreationForm):
@@ -11,7 +13,7 @@ class RegistrationForm(UserCreationForm):
         label="Password",
         widget=forms.PasswordInput(
             attrs={
-                "class": "form-control",
+                "class": "form-control mt-2",
                 "placeholder": "Password",
             }
         ),
@@ -20,7 +22,7 @@ class RegistrationForm(UserCreationForm):
         label="Confirm password",
         widget=forms.PasswordInput(
             attrs={
-                "class": "form-control",
+                "class": "form-control mt-2",
                 "placeholder": "Confirm Password",
             }
         ),
@@ -30,16 +32,21 @@ class RegistrationForm(UserCreationForm):
         model = User
         fields = ["username", "email"]
 
+        label = {
+            "username": "Username",
+            "email": "Email",
+        }
+
         widgets = {
             "username": forms.TextInput(
                 attrs={
-                    "class": "form-control",
+                    "class": "form-control mt-2",
                     "placeholder": "Username",
                 }
             ),
             "email": forms.EmailInput(
                 attrs={
-                    "class": "form-control",
+                    "class": "form-control mt-2",
                     "placeholder": "Email",
                 }
             ),
@@ -48,11 +55,11 @@ class RegistrationForm(UserCreationForm):
 
 class LoginForm(AuthenticationForm):
     username = forms.CharField(
-        label="Username",
+        label="Email",
         widget=forms.TextInput(
             attrs={
                 "class": "form-control",
-                "placeholder": "Username",
+                "placeholder": "Email",
             }
         ),
     )

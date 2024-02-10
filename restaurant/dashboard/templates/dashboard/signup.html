@@ -6,28 +6,28 @@
     <form method="post" class="mt-4">
         {% csrf_token %}
         <div class="mb-3">
-            <label for="id_username" class="form-label">Username</label>
+            {{ form.username.label }}
             {{ form.username }}
             {% if form.username.errors %}
                 <span class="text-danger">{{ form.username.errors }}</span>
             {% endif %}
         </div>
         <div class="mb-3">
-            <label for="id_email" class="form-label">Email</label>
+            {{ form.email.label }}
             {{ form.email }}
             {% if form.email.errors %}
                 <span class="text-danger">{{ form.email.errors }}</span>
             {% endif %}
         </div>
         <div class="mb-3">
-            <label for="id_password1" class="form-label">Password</label>
+            {{ form.password1.label }}
             {{ form.password1 }}
             {% if form.password1.errors %}
                 <span class="text-danger">{{ form.password1.errors }}</span>
             {% endif %}
         </div>
         <div class="mb-3">
-            <label for="id_password2" class="form-label">Confirm Password</label>
+            {{ form.password2.label }}
             {{ form.password2 }}
             {% if form.password2.errors %}
                 <span class="text-danger">{{ form.password2.errors }}</span>
