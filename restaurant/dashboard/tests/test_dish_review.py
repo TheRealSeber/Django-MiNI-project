@@ -47,21 +47,21 @@ class DishReviewTests(TestCase):
         cls.client = Client()
 
     def test_dish_review_view(self):
-        response = self.client.get("/dashboard/reviews/")
+        response = self.client.get(reverse("dashboard:reviews"))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(
             response, "dashboard/dish_review/dish_reviews_list.html"
         )
 
     def test_dish_review_view_reviews(self):
-        response = self.client.get("/dashboard/reviews/")
+        response = self.client.get(reverse("dashboard:reviews"))
         soup = BeautifulSoup(response.content, "html.parser")
         reviews = soup.find_all("div", {"class": "card h-100"})
         self.assertEqual(len(reviews), 2)
 
     def test_dish_review_delete_button_exists(self):
         self.client.force_login(user=self.admin_user)
-        response = self.client.get("/dashboard/reviews/")
+        response = self.client.get(reverse("dashboard:reviews"))
         soup = BeautifulSoup(response.content, "html.parser")
         self.assertTrue(
             soup.find(

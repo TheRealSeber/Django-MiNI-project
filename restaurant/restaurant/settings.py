@@ -140,4 +140,4 @@ EMAIL_HOST_USER = "ionlycatchallemails@gmail.com"
 EMAIL_HOST_PASSWORD = "dicjmkhierjuorig"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = "Delight youremail@gmail.com"
+DEFAULT_FROM_EMAIL = "Bottega Del Gusto bottegadelgusto@gmail.com"

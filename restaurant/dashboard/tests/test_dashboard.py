@@ -23,34 +23,34 @@ class DashboardTests(TestCase):
         cls.client = Client()
 
     def test_dashboard_view(self):
-        response = self.client.get("/dashboard/")
+        response = self.client.get(reverse("dashboard:index"))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "dashboard/dashboard.html")
 
     def test_administrator_button_enabled(self):
         self.client.force_login(user=self.admin_user)
-        response = self.client.get("/dashboard/")
+        response = self.client.get(reverse("dashboard:index"))
         soup = BeautifulSoup(response.content, "html.parser")
         self.assertTrue(soup.find("a", {"href": reverse("dashboard:administrator")}))
         self.client.logout()
 
     def test_administrator_button_disabled(self):
         self.client.force_login(user=self.base_not_verified_user)
-        response = self.client.get("/dashboard/")
+        response = self.client.get(reverse("dashboard:index"))
         soup = BeautifulSoup(response.content, "html.parser")
         self.assertFalse(soup.find("a", {"href": reverse("dashboard:administrator")}))
         self.client.logout()
 
     def test_logout_form_exists(self):
         self.client.force_login(user=self.admin_user)
-        response = self.client.get("/dashboard/")
+        response = self.client.get(reverse("dashboard:index"))
         soup = BeautifulSoup(response.content, "html.parser")
         self.assertTrue(soup.find("form", {"action": reverse("dashboard:logout")}))
         self.client.logout()
 
     def test_verify_email_button_exists(self):
         self.client.force_login(user=self.base_not_verified_user)
-        response = self.client.get("/dashboard/")
+        response = self.client.get(reverse("dashboard:index"))
         soup = BeautifulSoup(response.content, "html.parser")
         self.assertTrue(soup.find("input", {"name": "verify_email"}))
         self.client.logout()

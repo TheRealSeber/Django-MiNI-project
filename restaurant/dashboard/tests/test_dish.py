@@ -52,19 +52,19 @@ class DishTests(TestCase):
         cls.client = Client()
 
     def test_menu_view(self):
-        response = self.client.get("/dashboard/menu/")
+        response = self.client.get(reverse("dashboard:menu"))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "dashboard/dish/dish_list.html")
 
     def test_menu_view_dishes(self):
-        response = self.client.get("/dashboard/menu/")
+        response = self.client.get(reverse("dashboard:menu"))
         soup = BeautifulSoup(response.content, "html.parser")
         dishes = soup.find_all("div", {"class": "card h-100"})
         self.assertEqual(len(dishes), 3)
 
     def test_modify_dish_button_exists(self):
         self.client.force_login(user=self.admin_user)
-        response = self.client.get("/dashboard/menu/")
+        response = self.client.get(reverse("dashboard:menu"))
         soup = BeautifulSoup(response.content, "html.parser")
         self.assertTrue(
             soup.find(
@@ -75,7 +75,7 @@ class DishTests(TestCase):
 
     def test_add_review_button_exists(self):
         self.client.force_login(user=self.base_not_verified_user)
-        response = self.client.get("/dashboard/menu/")
+        response = self.client.get(reverse("dashboard:menu"))
         soup = BeautifulSoup(response.content, "html.parser")
         self.assertTrue(
             soup.find(
@@ -88,7 +88,7 @@ class DishTests(TestCase):
     def test_can_modify_dish(self):
         self.client.force_login(user=self.admin_user)
         response = self.client.get(
-            f"/dashboard/administrator/dish_update/{self.dish_1.pk}/"
+            reverse("dashboard:dish_update", args=[self.dish_1.pk])
         )
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "dashboard/dish/dish_update.html")
@@ -97,7 +97,7 @@ class DishTests(TestCase):
     def test_access_denied_modify_dish(self):
         self.client.force_login(user=self.base_not_verified_user)
         response = self.client.get(
-            f"/dashboard/administrator/dish_update/{self.dish_1.pk}/"
+            reverse("dashboard:dish_update", args=[self.dish_1.pk])
         )
         self.assertEqual(response.status_code, 403)
         self.client.logout()
@@ -105,7 +105,7 @@ class DishTests(TestCase):
     def test_access_denied_delete_dish(self):
         self.client.force_login(user=self.base_not_verified_user)
         response = self.client.get(
-            f"/dashboard/administrator/delete_dish/{self.dish_1.pk}/"
+            reverse("dashboard:delete_dish", args=[self.dish_1.pk])
         )
         self.assertEqual(response.status_code, 403)
         self.client.logout()
