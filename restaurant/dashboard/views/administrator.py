@@ -4,6 +4,8 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth import login
 from django.contrib.auth import logout
 from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.contrib.auth.views import PasswordResetView
+from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import EmailMessage
 from django.http import HttpRequest
@@ -124,3 +126,18 @@ class AdministratorView(PermissionRequiredMixin, View):
                 form.save()
             return redirect(reverse_lazy("dashboard:menu"))
         return HttpResponseBadRequest("Invalid form submission")
+
+
+class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
+    template_name = "dashboard/password_reset/password_reset.html"
+    email_template_name = "dashboard/password_reset/password_reset_email.html"
+    subject_template_name = "dashboard/password_reset/password_reset_subject.txt"
+    success_message = (
+        "We've emailed you instructions for setting your password, "
+        "if an account exists with the email you entered. "
+        "You should receive them shortly."
+        " If you don't receive an email, "
+        "please make sure you've entered the address you registered with, "
+        "and check your spam folder."
+    )
+    success_url = reverse_lazy("dashboard:index")

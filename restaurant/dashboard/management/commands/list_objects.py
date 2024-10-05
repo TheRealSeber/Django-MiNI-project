@@ -1,5 +1,9 @@
+from dashboard.models import CustomUser
+from dashboard.models import Dish
+from dashboard.models import DishReview
+from dashboard.models import Driver
 from django.core.management.base import BaseCommand
-from dashboard.models import CustomUser, Dish, DishReview, Driver
+
 
 class Command(BaseCommand):
     help = "List all objects in the database with their fields for CustomUser, Dish, DishReview, and Driver models"
@@ -13,7 +17,7 @@ class Command(BaseCommand):
                 self._print_object_fields(user)
         else:
             self.stdout.write("No CustomUser objects found.")
-        
+
         dishes = Dish.objects.all()
         if dishes.exists():
             self.stdout.write("\nDish objects:")
@@ -22,7 +26,7 @@ class Command(BaseCommand):
                 self._print_object_fields(dish)
         else:
             self.stdout.write("\nNo Dish objects found.")
-        
+
         dish_reviews = DishReview.objects.all()
         if dish_reviews.exists():
             self.stdout.write("\nDishReview objects:")
@@ -31,7 +35,7 @@ class Command(BaseCommand):
                 self._print_object_fields(review)
         else:
             self.stdout.write("\nNo DishReview objects found.")
-        
+
         drivers = Driver.objects.all()
         if drivers.exists():
             self.stdout.write("\nDriver objects:")

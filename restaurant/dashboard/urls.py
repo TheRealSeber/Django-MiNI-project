@@ -1,6 +1,8 @@
+from django.contrib.auth import views as auth_views
 from django.urls import path
 
 from . import views
+
 
 app_name = "dashboard"
 
@@ -47,5 +49,20 @@ urlpatterns = [
         "verify-email-confirm/<uidb64>/<token>/",
         views.VerifyEmailConfirmView.as_view(),
         name="verify-email-confirm",
+    ),
+    path("password-reset/", views.ResetPasswordView.as_view(), name="password_reset"),
+    path(
+        "password-reset-confirm/<uidb64>/<token>/",
+        auth_views.PasswordResetConfirmView.as_view(
+            template_name="dashboard/password_reset/password_reset_confirm.html"
+        ),
+        name="password_reset_confirm",
+    ),
+    path(
+        "password-reset-complete/",
+        auth_views.PasswordResetCompleteView.as_view(
+            template_name="dashboard/password_reset/password_reset_complete.html"
+        ),
+        name="password_reset_complete",
     ),
 ]

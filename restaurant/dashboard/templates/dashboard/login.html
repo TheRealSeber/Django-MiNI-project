@@ -19,8 +19,11 @@
                 <span class="text-danger">{{ form.password.errors }}</span>
             {% endif %}
         </div>
-        <div class="d-grid gap-2">
+        <div class="d-grid gap-2 mb-3">
             <button type="submit" class="btn btn-primary" value="Login">Login</button>
+        </div>
+        <div class="d-grid gap-2">
+            <a href="{% url 'dashboard:password_reset' %}" class="btn btn-secondary">Forgot Password?</a>
         </div>
     </form>
 </div>
