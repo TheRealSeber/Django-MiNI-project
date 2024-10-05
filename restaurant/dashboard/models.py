@@ -1,3 +1,6 @@
+import os
+import uuid
+
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MaxValueValidator
@@ -56,6 +59,17 @@ class Dish(models.Model):
     def __str__(self):
         return f"{self.name} - ${self.price}"
 
+    def save(self, *args, **kwargs):
+        try:
+            old_dish = Dish.objects.get(pk=self.pk)
+        except Dish.DoesNotExist:
+            old_dish = None
+        if old_dish and old_dish.image != self.image:
+            old_dish.image.delete(save=False)
+        ext = os.path.splitext(self.image.name)[1]
+        self.image.name = f"{uuid.uuid4()}{ext}"
+        super().save(*args, **kwargs)
+
 
 class DishReview(models.Model):
     dish = models.ForeignKey(Dish, on_delete=models.CASCADE)
@@ -76,3 +90,15 @@ class Driver(models.Model):
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        try:
+            old_driver = Driver.objects.get(pk=self.pk)
+        except Driver.DoesNotExist:
+            old_driver = None
+
+        if old_driver and old_driver.image != self.image:
+            old_driver.image.delete(save=False)
+        ext = os.path.splitext(self.image.name)[1]
+        self.image.name = f"{uuid.uuid4()}{ext}"
+        super().save(*args, **kwargs)
