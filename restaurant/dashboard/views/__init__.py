@@ -1,3 +1,5 @@
+from .about_us import AboutUsView  # noqa: F401
+from .about_us import RestaurantInfoView  # noqa: F401
 from .administrator import AdministratorView  # noqa: F401
 from .administrator import DashboardView  # noqa: F401
 from .administrator import LoginView  # noqa: F401

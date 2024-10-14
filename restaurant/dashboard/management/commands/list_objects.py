@@ -15,6 +15,7 @@ class Command(BaseCommand):
             for user in users:
                 self.stdout.write(f" - {user}")
                 self._print_object_fields(user)
+                print(user.groups.all())
         else:
             self.stdout.write("No CustomUser objects found.")
 

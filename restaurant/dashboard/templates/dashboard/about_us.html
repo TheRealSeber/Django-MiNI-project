@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <!-- About Us Section -->
+                <div class="card shadow-lg">
+                    <div class="card-header bg-primary text-white">
+                        <h1 class="text-center">About Us</h1>
+                    </div>
+                    <div class="card-body">
+                        <div class="restaurant-info">
+                            <h2 class="text-center">Welcome to <span id="restaurant-name"></span></h2>
+                            <p class="lead text-center" id="restaurant-description"></p>
+                            <hr>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p><strong>Address:</strong> <span id="restaurant-address"></span></p>
+                                    <p><strong>Phone:</strong> <span id="restaurant-phone"></span></p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p><strong>Email:</strong> <span id="restaurant-email"></span></p>
+                                    <p><strong>Opening Hours:</strong> <span id="restaurant-hours"></span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('/dashboard/restaurant_info/')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('restaurant-name').textContent = data.name;
+                document.getElementById('restaurant-description').textContent = data.description;
+                document.getElementById('restaurant-address').textContent = data.address;
+                document.getElementById('restaurant-phone').textContent = data.phone;
+                document.getElementById('restaurant-email').textContent = data.email;
+                document.getElementById('restaurant-hours').textContent = data.hours;
+            })
+            .catch(error => {
+                console.error('Error fetching restaurant info:', error);
+            });
+        });
+    </script>
+{% endblock %}

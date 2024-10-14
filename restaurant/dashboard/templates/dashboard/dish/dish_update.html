@@ -20,6 +20,9 @@
                         <div class="mb-3">
                             {{ form.price.label }}
                             {{ form.price }}
+                            {% if form.price.errors %}
+                                <span class="text-danger">{{ form.price.errors }}</span>
+                            {% endif %}
                         </div>
                         <div class="mb-3">
                             <label for="dish_image" class="form-label">Current Image</label>

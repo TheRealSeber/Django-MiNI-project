@@ -24,7 +24,7 @@
             <div class="row row-cols-1 row-cols-md-3 g-4">
                 {% for driver in filter.qs %}
                 <div class="col">
-                    <div class="card h-100">
+                    <div class="card driver-card h-100">
                         <div style="overflow: hidden;">
                             <img src="{{ driver.image.url }}" class="card-img-top img-fluid fit-image" alt="{{ driver.name }}">
                         </div>

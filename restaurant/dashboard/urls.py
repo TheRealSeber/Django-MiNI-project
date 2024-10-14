@@ -65,4 +65,8 @@ urlpatterns = [
         ),
         name="password_reset_complete",
     ),
+    path("about_us/", views.AboutUsView.as_view(), name="about_us"),
+    path(
+        "restaurant_info/", views.RestaurantInfoView.as_view(), name="restaurant_info"
+    ),  # JSON view for restaurant data
 ]
